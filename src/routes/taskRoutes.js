@@ -1,18 +1,9 @@
 import express from "express";
-import authMiddleware from "../middleware/authMiddleware.js";
-import {
-  createTask,
-  getTasks,
-  deleteTask,
-} from "../controllers/taskController.js";
+import { createTask, getTasks } from "../controllers/taskController.js";
+import { protect } from "../middleware/authMiddleware.js";
 
 const router = express.Router();
-
-// Apply authentication middleware
-router.use(authMiddleware);
-
-router.post("/", createTask);
-router.get("/", getTasks);
-router.delete("/:id", deleteTask);
+router.post("/", protect, createTask);
+router.get("/", protect, getTasks);
 
 export default router;
